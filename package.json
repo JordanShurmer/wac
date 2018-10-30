@@ -1,0 +1,33 @@
+{
+  "name": "wac",
+  "version": "0.0.1",
+  "description": "A client for interacting with Web Access Controls",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JordanShurmer/wac.git"
+  },
+  "keywords": [
+    "WAC",
+    "ldp",
+    "solid"
+  ],
+  "author": "Jordan Shurmer <jordan@shurmerfamily.com>",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/JordanShurmer/wac/issues"
+  },
+  "homepage": "https://github.com/JordanShurmer/wac#readme",
+  "dependencies": {
+    "n3": "^1.0.0-beta.2",
+    "parse-link-header": "^1.0.1"
+  },
+  "devDependencies": {
+    "fetch-mock": "^7.2.2",
+    "jest": "^23.6.0",
+    "node-fetch": "^2.2.0"
+  }
+}
