@@ -1,6 +1,7 @@
 const fetchMock = require('fetch-mock')
 const wac = require('./index.js')
 
+fetchMock.config.warnOnFallback = false;
 fetchMock.catch((url, config) => {
     //provide the acl headers for all containers
     if (url.endsWith("/"))

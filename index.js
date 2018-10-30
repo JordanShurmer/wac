@@ -3,20 +3,17 @@ const parseHeader = require('parse-link-header')
 const wac = module.exports = {}
 
 /**
- * Given any document url, return the url to the corresponding ACL document, whether or not that document actually exists.
+ * Given any document url return the url to the corresponding ACL document that defines it's sharing settings
  *
- * Parse the Link header for the first rel="acl" link
+ * Parse the Link header for the rel="acl" link. Inherit up the hierarchy until an acl doc is actually found
  */
 wac.aclUrl = function (docUrl) {
-    console.debug(`Determining acl url for ${docUrl}`)
     return fetch(docUrl, {method: 'HEAD'})
         .then(response => {
-            let aclUrl = ''
             const links = parseHeader(response.headers.get('Link'))
             if (links && links.acl) {
                 // resolve the relative acl Link against the given document url
-                aclUrl = new URL(links.acl.url, docUrl).href
-                console.debug(`ACL URL from ${docUrl} Headers: ${aclUrl}`)
+                const aclUrl = new URL(links.acl.url, docUrl).href
 
                 //check for existence of the doc
                 return fetch(aclUrl)
@@ -35,9 +32,12 @@ wac.aclUrl = function (docUrl) {
                         }
                     });
             } else {
-                console.debug(`No ACL Link header for ${docUrl}`)
-                return aclUrl
+                return ''
             }
         })
-    // TODO: handle fetch.catch().  return ''? throw errors?
+        .catch(reason => {
+            console.error("HEAD request for acl Link header failed", {reason: reason});
+            // TODO: what to do here?
+            return '';
+        })
 }
